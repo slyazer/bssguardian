@@ -633,15 +633,10 @@ class RobloxGuardianApp:
         """Manually shut down an instance and disable monitoring for it."""
         name, idx, port = inst["name"], inst["index"], inst["port"]
         self._log(f"[MANUAL] Shutting down {name}...", YELLOW)
-        # Close Roblox app
-        result = self._mumu("control", "app", "close", "--package", "com.roblox.client", "-v", str(idx))
-        if result is False:
-            self._log(f"  [WARN] Failed to close Roblox on {name}", YELLOW)
-        self._sleep(1)
         # Disconnect ADB first
         self._adb("disconnect", f"127.0.0.1:{port}")
         # Shut down the instance
-        result = self._mumu("control", "-v", str(idx), "shutdown")
+        result = self._mumu("control", "shutdown", "-v", str(idx))
         if result is False:
             self._log(f"  [WARN] Shutdown command failed for {name}", YELLOW)
             return  # Don't disable if shutdown failed
