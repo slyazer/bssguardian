@@ -633,7 +633,12 @@ class RobloxGuardianApp:
         """Manually shut down an instance and disable monitoring for it."""
         name, idx, port = inst["name"], inst["index"], inst["port"]
         self._log(f"[MANUAL] Shutting down {name}...", YELLOW)
-        # Disconnect ADB first
+        # Force stop Roblox first
+        result = self._mumu("api", "-v", str(idx), "shell", "am", "force-stop", "com.roblox.client")
+        if result is False:
+            self._log(f"  [WARN] Failed to force-stop Roblox on {name}", YELLOW)
+        self._sleep(1)
+        # Disconnect ADB
         self._adb("disconnect", f"127.0.0.1:{port}")
         # Shut down the instance
         result = self._mumu("control", "shutdown", "-v", str(idx))
@@ -1184,9 +1189,7 @@ class RobloxGuardianApp:
                     self._log(f"  [FAIL] {inst['name']} NOT running!", RED)
                     self._flog(f"ERROR: {inst['name']} not running", ERROR_LOG)
                     self._set_card(i, "FAIL")
-                    self._recover(inst, i)
-                    recovered = True
-                    break
+                    self._manual_shutdown(inst)
                 self._log(f"  [OK] {inst['name']} (PID {pid})", GREEN)
                 self._set_card(i, "OK", pid)
 

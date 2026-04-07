@@ -22,3 +22,7 @@
 [2026-04-06 11:38:50] Monitor stopped by user
 [2026-04-06 11:39:20] Monitor started (fast path)
 [2026-04-06 11:39:39] Monitor stopped by user
+[2026-04-06 22:28:02] Monitor started (full boot)
+[2026-04-07 00:08:24] Monitor started (full boot)
+[2026-04-06 17:45:07] Monitor stopped by user
+[2026-04-07 03:06:31] Monitor started (full boot)
