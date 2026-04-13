@@ -1,7 +1,7 @@
 {
-  "adb_path": "C:/Users/slyazer/Desktop/MuMuPlayerGlobal/nx_main/adb.exe",
-  "mumu_exe": "C:/Users/slyazer/Desktop/MuMuPlayerGlobal/nx_main/MuMuNxMain.exe",
-  "inst0_name": "alt 1",
-  "inst1_name": "alt 2",
-  "inst2_name": "alt 3"
+  "adb_path": "C:/Program Files/Netease/MuMuPlayer/nx_main/adb.exe",
+  "mumu_exe": "C:/Program Files/Netease/MuMuPlayer/nx_main/MuMuNxMain.exe",
+  "inst0_name": "slyazer alt",
+  "inst1_name": "slyazer 2",
+  "inst2_name": "bougnoul"
 }
