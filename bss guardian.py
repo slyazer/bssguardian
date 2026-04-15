@@ -5,6 +5,7 @@ import threading
 import os
 import time
 import json
+import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -1131,7 +1132,9 @@ class RobloxGuardianApp:
 
 
 # ── Entry point ────────────────────────────────────────────────────────────────
-def main():
+import sys
+
+def main(auto_start=False):
     root = tk.Tk()
     root.withdraw()
     root.configure(bg=BG)
@@ -1147,17 +1150,28 @@ def main():
         save_config(d.result)
         cfg = d.result
 
-    picker    = InstancePicker(root)
-    instances = picker.result or build_instances(cfg)[:1]
+    # 🔥 AUTO START = skip picker
+    if auto_start:
+        instances = build_instances(cfg)
+    else:
+        picker    = InstancePicker(root)
+        instances = picker.result or build_instances(cfg)[:1]
 
     root.deiconify()
-    try: root.iconbitmap(default="")
-    except Exception: pass
+    try:
+        root.iconbitmap(default="")
+    except Exception:
+        pass
 
     app = RobloxGuardianApp(root, instances, cfg)
 
+    # 🔥 AUTO START DIRECT
+    if auto_start:
+        root.after(1000, app.start_monitor)
+
     def on_close():
-        if app._afk_timer: app._afk_timer.cancel()
+        if app._afk_timer:
+            app._afk_timer.cancel()
         if app.running:
             app._stop.set()
             app.running = False
@@ -1169,5 +1183,7 @@ def main():
     root.mainloop()
 
 
+
 if __name__ == "__main__":
-    main()
+    AUTO_START = len(sys.argv) > 1 and sys.argv[1] == "1"
+    main(auto_start=AUTO_START)
